@@ -5,7 +5,7 @@
 
 Inferences stat (Test with NVidia V100 32Gb GPU )
 
-|                                  RetinaFace (face detection) optimization statistics                                    |
+| RetinaFace (face detection) optimization statistics |            |                         |                 |          |
 |-----------------------------------------------------|------------|-------------------------|-----------------|----------|
 | Sample Number                                       | Input Size | Inference Time (second) |                 | Speed-up |
 |                                                     |            | Original model          | Optimized model |          |
