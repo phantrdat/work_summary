@@ -1,3 +1,5 @@
+[Blockchain (TRON) wallet API](https://github.com/lamductan/TrxWalletApi)
+
 [Real-time face detection](retina_face_optimization)
 
 References:
