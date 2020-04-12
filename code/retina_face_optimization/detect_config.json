@@ -1,0 +1,14 @@
+{
+  "trained_model":"./weights/RBF_Final.pth",
+  "network":"RFB",
+  "origin_size":"False",
+  "long_side":640,
+  "save_folder":"./widerface_evaluate/widerface_txt/",
+  "cpu":"False",
+  "confidence_threshold":0.7,
+  "top_k":5000,
+  "nms_threshold":0.4,
+  "keep_top_k":750,
+  "save_image":"True",
+  "vis_thres":0.3
+}
