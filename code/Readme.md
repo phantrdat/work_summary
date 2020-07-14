@@ -4,6 +4,10 @@
 
 - Reference: [Original code](https://github.com/biubug6/Face-Detector-1MB-with-landmark)
 
+(2020) [EffcientDet with ONNX](onnx-efficientdet)
+
+(2020) [Text Recognition](text_recognition)
+
 (2020) [Group testing algorithm (in process)](https://github.com/phantrdat/group-testing)
 
 (2020) [ICMR-2020 demo (Available soon)]
