@@ -248,7 +248,7 @@ def sortBoundingBox(points):
     # print(points)
     points_sum = list(map(lambda x: [x[0],x[1],sum(x[1]),x[2][1]],points))
     x_y_cordinate = list(map(lambda x: x[1],points_sum))
-    final_sorted_list = []
+    sorted_list = []
     while True:
         try:
             new_sorted_text = []
@@ -269,18 +269,23 @@ def sortBoundingBox(points):
                 B.append(tmp_K[1])
             dist = distance.cdist(A,B)[0]
             d_index = [i for i in sorted(zip(dist,points_index), key=lambda x:x[0])]
-            new_sorted_text.append(initial_value_A[1][0])
+            new_sorted_text.append(initial_value_A[1])
 
             index = []
             for j in d_index:
-                new_sorted_text.append(points_sum[j[1]][0])
+                new_sorted_text.append(points_sum[j[1]])
                 index.append(j[1])
             for n in sorted(index, reverse=True):
                 del points_sum[n]
                 del x_y_cordinate[n]
-            final_sorted_list.append(new_sorted_text)
+            sorted_list.append(new_sorted_text)
             # print(new_sorted_text)
         except Exception as e:
-            print(e)
             break
+    
+    sorted_list = sorted(sorted_list, key=lambda x:x[0][1][1])
+    final_sorted_list = []    
+    for text in sorted_list:
+        final_sorted_list.append([t[0] for t in text])
+    
     return final_sorted_list
