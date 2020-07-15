@@ -1,1 +1,2 @@
 python demo.py --Transformation TPS --FeatureExtraction ResNet --SequenceModeling BiLSTM --Prediction Attn --image_folder demo_image --saved_model TPS-ResNet-BiLSTM-Attn.pth
+python train.py --train_data ../data_lmdb_release/training/ --valid_data ../data_lmdb_release/validation/ --Transformation TPS --FeatureExtraction ResNet --SequenceModeling BiLSTM --Prediction Transformer --select_data MJ-ST-TDnew-EngText --batch_ratio 0.25-0.25-0.25-0.25 --sensitive --num_fiducial 40 --save_model saved_models/TPS-ResNet-BiLSTM-Transformer-Seed261504/best_norm_ED.pth 

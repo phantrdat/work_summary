@@ -56,7 +56,7 @@ parser.add_argument('--show_time', default=False, action='store_true', help='sho
 parser.add_argument('--test_folder', default='/home/phantrdat/Desktop/train_doc_2', type=str, help='folder path to input images')
 parser.add_argument('--refine', default=False, action='store_true', help='enable link refiner')
 parser.add_argument('--refiner_model', default='weights/craft_refiner_CTW1500.pth', type=str, help='pretrained refiner model')
-
+parser.add_argument('--output_type', default='image', type=str, help='Output format')
 args = parser.parse_args()
 
 
@@ -85,6 +85,8 @@ def plot_one_box(img, pts, label=None, score=None, color=None, line_thickness=No
         c2 = c1[0] + t_size[0]+15, c1[1] - t_size[1] -3
         cv2.rectangle(img, c1, c2 , color, -1)  # filled
         cv2.putText(img, '{}'.format(label), (c1[0],c1[1] - 2), 0, text_sz, [0, 0, 0], thickness=tf, lineType=cv2.FONT_HERSHEY_SIMPLEX)
+
+
 def test_net(net, image, text_threshold, link_threshold, low_text, cuda, poly, refine_net=None, is_rendered=False):
     t0 = time.time()
 
@@ -175,6 +177,7 @@ if __name__ == '__main__':
     t = time.time()
   
     for k, image_path in enumerate(image_list):
+        print(image_path)
         t1 = time.time()
         # print("Test image {:d}/{:d}: {:s}".format(k+1, len(image_list), image_path), end='\r')
         
@@ -231,17 +234,31 @@ if __name__ == '__main__':
         # print("Transfer Stage", time.time()- t_stagemid)
         # t_reg = time.time()
         pred_str = infer(all_text)
-
-        raw_img = cv2.imread(image_path)
-
-        for boxes, text in zip(polys, pred_str):
-            plot_one_box(raw_img , boxes, text, color=(0, 0, 255), line_thickness=1, poly=True)
-            
-            # cv2.imwrite(f'{args.test_folder}/text_cropped/{fname},{cbb}.jpg',cropped_im)
         
-        filename, file_ext = os.path.splitext(os.path.basename(image_path))
-        out_file = "result/"+ filename + ".jpg"
-        cv2.imwrite(out_file, raw_img)
-        # print("Recognition Stage", time.time() - t_reg)
+        
+        if args.output_type == 'image':
+            raw_img = cv2.imread(image_path)
+            for boxes, text in zip(polys, pred_str):
+                plot_one_box(raw_img , boxes, text, color=(0, 0, 255), line_thickness=1, poly=True)
+            filename, file_ext = os.path.splitext(os.path.basename(image_path))
+            out_file = "result/"+ filename + ".jpg"
+            
+            cv2.imwrite(out_file, raw_img)
+        if args.output_type == 'text':
+            polys_with_text = []
+            for boxes, text in zip(polys, pred_str):
+                polys_with_text.append([text, boxes.tolist()])
+            print(polys_with_text)
+            polys_with_text = craft_utils.sortBoundingBox(polys_with_text)
+            filename, file_ext = os.path.splitext(os.path.basename(image_path))
+            out_file = "result/"+ filename + ".txt"
+            f = open(out_file, 'w')
+            for line in polys_with_text:
+                f.write(' '.join(line)+'\n')
+            f.close()
+
+
+        
+        
     print(time.time() - t)
     print("elapsed time : {}s".format(time.time() - t))
